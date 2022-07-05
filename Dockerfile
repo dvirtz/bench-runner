@@ -25,14 +25,17 @@ RUN add-apt-repository \
     apt update && \
     apt install -y nodejs yarn docker-ce docker-ce-cli containerd.io
 
-RUN git clone https://github.com/FredTingaud/quick-bench-back-end /quick-bench && \
+RUN git clone https://github.com/dvirtz/quick-bench-back-end /quick-bench && \
     cd /quick-bench && \
+    git checkout conan && \
     npm install && \
     ./seccomp.js && \
     sysctl -w kernel.perf_event_paranoid=1
 
-RUN git clone https://github.com/FredTingaud/quick-bench-front-end /quick-bench/quick-bench-front-end && \
-    cd /quick-bench/quick-bench-front-end/build-bench && \
+RUN git clone https://github.com/dvirtz/quick-bench-front-end /quick-bench/quick-bench-front-end && \
+    cd /quick-bench/quick-bench-front-end && \
+    git checkout conan && \
+    cd build-bench && \
     yarn && \
     yarn build && \
     cd ../quick-bench && \
